@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour {
 	void Start ()
 	{
 		agent = GetComponent<NavMeshAgent> ();
+		agent.autoRepath = true;
 
 		if (blackboard == null) {
 			blackboard = GameObject.Find("Blackboard").GetComponent<Blackboard>();
@@ -62,7 +63,7 @@ public class Enemy : MonoBehaviour {
 
 	public void TakeDamage (int damage)
 	{
-		Debug.Log ("TakeDamage");
+		Debug.Log ("TakeDamage: " + health);
 		health -= damage;
 		if (health <= 0) {
 			killed = true;

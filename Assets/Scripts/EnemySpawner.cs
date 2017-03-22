@@ -18,7 +18,7 @@ public class EnemySpawner : MonoBehaviour {
 	
 	}
 
-	void SpawnWave ()
+	public void SpawnWave ()
 	{
 		StartCoroutine(SpawnEnemy());
 	}
@@ -32,7 +32,7 @@ public class EnemySpawner : MonoBehaviour {
 		Enemy enemyScript = enemy.GetComponent<Enemy>();
 		enemyScript.destination = blackboard.destination;
 
-		if (blackboard.currentEnemies <blackboard.enemiesPerWave) {
+		if (blackboard.currentEnemies < blackboard.enemiesPerWave) {
 			StartCoroutine(SpawnEnemy());
 		}
 	}

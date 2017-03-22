@@ -11,6 +11,7 @@ TagManager:
   - W
   - E
   - Enemy
+  - MenuItem
   layers:
   - Default
   - TransparentFX

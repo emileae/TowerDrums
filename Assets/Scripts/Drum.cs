@@ -16,6 +16,9 @@ public class Drum : MonoBehaviour {
 	// the audio source determines the hit points, so a deep sound hits harder than a higher pitched sound
 	AudioSource audio;
 
+	// wave
+	public float waveRange = 2.0f;
+
 	// beat is the drum/tower's attack frequency
 	public float beat = 0.5f;
 	public bool play = false;
@@ -42,14 +45,22 @@ public class Drum : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		if (blackboard.enemiesKilled >= blackboard.currentEnemies){
-			defeated = true;
-		}
+//		if (blackboard.enemiesKilled >= blackboard.currentEnemies){
+//			blackboard.defeated = true;
+//		}
 		audio.volume = volume;
-		if (play && !playing && !defeated) {
+		if (play && !playing) {
 			playing = true;
 			StartCoroutine (PlayDrum ());
 		}
+
+//		if (blackboard.money <= 0) {
+//			// try to only call this GetComponent<> once...
+//			if (play) {
+//				buildPoint.soundWave.GetComponent<SoundWave>().stopWave = true;
+//				play = false;
+//			}
+//		}
 
 	}
 
@@ -79,27 +90,30 @@ public class Drum : MonoBehaviour {
 		}
 	}
 
-	void OnMouseDown ()
-	{
-		if (blackboard.money >= cost) {
-			buildPoint.towerSelected = true;
-			play = true;
-			volume = 0.5f;
-			Debug.Log ("Selected a Tower");
-			for (int i = 0; i < buildPoint.drums.Length; i++) {
-				if (buildPoint.drums [i] != gameObject) {
-					buildPoint.drums [i].SetActive (false);
-				}
-			}
-			blackboard.money -= cost;
-		}
-
-		transform.position = new Vector3(transform.position.x, 1.7f, transform.position.z);
-	}
+//	void OnMouseDown ()
+//	{
+//		if (blackboard.money >= cost) {
+//			buildPoint.towerSelected = true;
+////			buildPoint.collider.enabled = true;
+//			play = true;
+//			volume = 0.5f;
+//			Debug.Log ("Selected a Tower");
+//			for (int i = 0; i < buildPoint.drums.Length; i++) {
+//				if (buildPoint.drums [i] != gameObject) {
+//					buildPoint.drums [i].SetActive (false);
+//				}
+//			}
+//			blackboard.money -= cost;
+//		}
+//
+//		transform.position = new Vector3(transform.position.x, 1.7f, transform.position.z);
+//		blackboard.DeselectAllPoints ();
+//	}
 
 	void OnTriggerEnter (Collider col)
 	{
 		if (col.CompareTag ("Enemy")) {
+			Debug.Log("Drummmmmmmmming the enemy.1.1.1.11.");
 			Enemy enemyScript = col.gameObject.GetComponent<Enemy>();
 			enemyScripts.Add(enemyScript);
 		}
@@ -111,6 +125,11 @@ public class Drum : MonoBehaviour {
 			Enemy enemyScript = col.gameObject.GetComponent<Enemy>();
 			enemyScripts.Remove(enemyScript);
 		}
+	}
+
+	void ActivateSoundWave ()
+	{
+		buildPoint.soundWave.SetActive(true);
 	}
 
 }

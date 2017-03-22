@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class TowerControl : MonoBehaviour {
 
+	public Blackboard blackboard;
+
 	public GameObject tree;
 
 	public GridLayout gridLayout;
@@ -11,7 +13,9 @@ public class TowerControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		if (blackboard == null) {
+			blackboard = GameObject.Find("Blackboard").GetComponent<Blackboard>();
+		}
 	}
 	
 	// Update is called once per frame
@@ -19,22 +23,7 @@ public class TowerControl : MonoBehaviour {
 		SelectAPoint();
 	}
 
-	void  DeselectAllPoints ()
-	{
-		gridLayout.currentlySelectedPoint = null;
-//		Debug.Log ("gridLayout: " + gridLayout);
-//		Debug.Log ("gridLayout.buildPointScripts[i]: " + gridLayout.buildPointScripts [0]);
-//		Debug.Log ("arr length: " + gridLayout.buildPointScripts.Length);
-		for (int i = 0; i < gridLayout.buildPointScripts.Length; i++) {
-			gridLayout.buildPointScripts [i].selected = false;
-			if (gridLayout.buildPointScripts [i].drumsVisible && !gridLayout.buildPointScripts [i].towerSelected) {
-				gridLayout.buildPointScripts[i].drumsVisible = false;
-				gridLayout.buildPointScripts[i].HideDrums();
-			}
-		}
-	}
-
-	// TODO: have a way to deselect all selected buildpoints when one is selected
+	// Deselect points in Blackboard.cs
 
 	void SelectAPoint ()
 	{
@@ -42,17 +31,35 @@ public class TowerControl : MonoBehaviour {
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			if (Physics.Raycast (ray, out hit)) {
+				Debug.Log ("TAG: " + hit.transform.gameObject.tag);
 				if (hit.transform.gameObject.tag == "buildPoint") {
-//	                 Debug.Log ("Hit build point");
+					Debug.Log ("Hit build point");
+
 					BuildPoint buildPointScript = hit.transform.gameObject.GetComponent<BuildPoint> ();
 
-					DeselectAllPoints ();
-					buildPointScript.selected = !buildPointScript.selected;
-					if (gridLayout.currentlySelectedPoint && !buildPointScript.selected) {
-						gridLayout.currentlySelectedPoint = null;
+					if (buildPointScript.selected) {
+						Debug.Log ("Deselect this point!!@!@!@!@!@");
+						blackboard.DeselectAllPoints ();
+					} else {
+
+
+						buildPointScript.collider.enabled = false;
+
+						if (!buildPointScript.towerSelected) {
+							buildPointScript.buildOptions.SetActive (true);
+						}
+
+						blackboard.DeselectAllPoints ();
+						buildPointScript.selected = !buildPointScript.selected;
+						if (gridLayout.currentlySelectedPoint && !buildPointScript.selected) {
+							gridLayout.currentlySelectedPoint = null;
+						}
+						gridLayout.currentlySelectedPoint = hit.transform.gameObject;
 					}
-					gridLayout.currentlySelectedPoint = hit.transform.gameObject;
-//	                 Instantiate(tree, hit.transform.position, Quaternion.identity);
+				}else if (hit.transform.gameObject.tag == "MenuItem"){
+	             	TomoeSelect tomoeScript = hit.transform.gameObject.GetComponent<TomoeSelect>();
+					BuildPoint buildPointScript = gridLayout.currentlySelectedPoint.GetComponent<BuildPoint>();
+					buildPointScript.SetDrum(tomoeScript.drumType);
 	             }
 	         }
 		}

@@ -19,7 +19,6 @@ public class GridLayout : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-
 		gridPoints = new GameObject[groundWidth, groundHeight];
 		buildPointScripts = new BuildPoint[groundWidth * groundHeight];
 
@@ -27,9 +26,9 @@ public class GridLayout : MonoBehaviour {
 
 		for (int i = 0; i < groundWidth; i++) {
 			for (int j = 0; j < groundHeight; j++) {
-				float xPos = (i * unitWidth) - (groundWidth / 2) * unitWidth + 0.5f * unitWidth;
-				float yPos = 0;
-				float zPos = (j * unitWidth) - (groundHeight / 2) * unitWidth + 0.5f * unitWidth;;
+				float xPos = (i * unitWidth) - (groundWidth / 2) * unitWidth;
+				float yPos = -0.49f;
+				float zPos = (j * unitWidth) - (groundHeight / 2) * unitWidth;
 				GameObject buildPointGameObject = Instantiate (buildPoint, new Vector3 (xPos, yPos, zPos), Quaternion.identity) as GameObject;
 				gridPoints[i, j] = buildPointGameObject;
 				buildPointScripts[buildPointScriptIndex] = buildPointGameObject.GetComponent<BuildPoint>();
