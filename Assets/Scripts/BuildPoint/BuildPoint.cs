@@ -13,12 +13,17 @@ public class BuildPoint : MonoBehaviour {
 	public bool selected = false;
 	public bool cleared = false;// has tree or doesnt have a tree
 
+	// is this the column that spawns bad guys
+	public bool spawningGround = false;
+
 	// new Tomoe build options
 	public GameObject buildOptions;
 
 	public GameObject Tree;
 
 	public GameObject soundWave;
+
+	public Drum drumScript;
 
 	// Placed to fell a tree
 //	public GameObject N;
@@ -79,41 +84,47 @@ public class BuildPoint : MonoBehaviour {
 
 	public void SetDrum (int drum)
 	{
-		soundWave.SetActive(true);
-		SoundWave soundWaveScript = soundWave.GetComponent<SoundWave>();
-		Drum drumScript;
-		buildOptions.SetActive(false);
+		soundWave.SetActive (true);
+		SoundWave soundWaveScript = soundWave.GetComponent<SoundWave> ();
+		buildOptions.SetActive (false);
 		towerSelected = true;
-		blackboard.DeselectAllPoints();
+		blackboard.DeselectAllPoints ();
+		collider.enabled = true;
 		switch (drum) {
 		case 0:
-			low.SetActive(true);
-			drumScript = low.GetComponent<Drum>();
-//			soundWaveScript.timeScaleFactor = drumScript.beat;
+			low.SetActive (true);
+			drumScript = low.GetComponent<Drum> ();
 			soundWaveScript.waveRange = drumScript.waveRange;
+			soundWaveScript.drumScript = drumScript;
 			blackboard.money -= drumScript.cost;
 			drumScript.play = true;
 			break;
 		case 1:
-			middle.SetActive(true);
-			drumScript = middle.GetComponent<Drum>();
-//			soundWaveScript.timeScaleFactor = drumScript.beat;
+			middle.SetActive (true);
+			drumScript = middle.GetComponent<Drum> ();
 			soundWaveScript.waveRange = drumScript.waveRange;
+			soundWaveScript.drumScript = drumScript;
 			blackboard.money -= drumScript.cost;
 			drumScript.play = true;
 			break;
 		case 2:
-			high.SetActive(true);
-			drumScript = high.GetComponent<Drum>();
-//			soundWaveScript.timeScaleFactor = drumScript.beat;
+			high.SetActive (true);
+			drumScript = high.GetComponent<Drum> ();
 			soundWaveScript.waveRange = drumScript.waveRange;
+			soundWaveScript.drumScript = drumScript;
 			blackboard.money -= drumScript.cost;
 			drumScript.play = true;
 			break;
 		default:
-			Debug.Log("Error BuildPoint.cs couldn't build a drum");
+			Debug.Log ("Error BuildPoint.cs couldn't build a drum");
 			break;
 		}
+
+		if (!blackboard.startAttack) {
+			Debug.Log("START ATTACKKKKKK: " + blackboard.currentWave);
+			blackboard.StartAttack();
+		}
+
 	}
 
 }

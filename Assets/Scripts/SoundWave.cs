@@ -48,4 +48,12 @@ public class SoundWave : MonoBehaviour {
 		}
 
 	}
+
+	void OnTriggerEnter (Collider col)
+	{
+		if (col.CompareTag ("Enemy")) {
+			col.gameObject.GetComponent<Enemy>().TakeDamage(drumScript.hitPoints);
+		}
+	}
+
 }

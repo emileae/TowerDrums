@@ -31,30 +31,35 @@ public class TowerControl : MonoBehaviour {
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			if (Physics.Raycast (ray, out hit)) {
-				Debug.Log ("TAG: " + hit.transform.gameObject.tag);
+//				Debug.Log ("TAG: " + hit.transform.gameObject.tag);
 				if (hit.transform.gameObject.tag == "buildPoint") {
-					Debug.Log ("Hit build point");
+//					Debug.Log ("Hit build point");
 
 					BuildPoint buildPointScript = hit.transform.gameObject.GetComponent<BuildPoint> ();
+					if (!buildPointScript.spawningGround) {
+						if (buildPointScript.selected) {
+//						Debug.Log ("Deselect this point!!@!@!@!@!@");
+							blackboard.DeselectAllPoints ();
+						} else {
 
-					if (buildPointScript.selected) {
-						Debug.Log ("Deselect this point!!@!@!@!@!@");
-						blackboard.DeselectAllPoints ();
-					} else {
+							Debug.Log ("Not selected........");
 
+							buildPointScript.collider.enabled = false;
 
-						buildPointScript.collider.enabled = false;
+							if (!buildPointScript.towerSelected) {
+								buildPointScript.buildOptions.SetActive (true);
+							} else if (buildPointScript.towerSelected) {
+								Debug.Log ("Has tower........");
+								buildPointScript.drumScript.ToggleDrum ();
+							}
 
-						if (!buildPointScript.towerSelected) {
-							buildPointScript.buildOptions.SetActive (true);
+							blackboard.DeselectAllPoints ();
+							buildPointScript.selected = !buildPointScript.selected;
+							if (gridLayout.currentlySelectedPoint && !buildPointScript.selected) {
+								gridLayout.currentlySelectedPoint = null;
+							}
+							gridLayout.currentlySelectedPoint = hit.transform.gameObject;
 						}
-
-						blackboard.DeselectAllPoints ();
-						buildPointScript.selected = !buildPointScript.selected;
-						if (gridLayout.currentlySelectedPoint && !buildPointScript.selected) {
-							gridLayout.currentlySelectedPoint = null;
-						}
-						gridLayout.currentlySelectedPoint = hit.transform.gameObject;
 					}
 				}else if (hit.transform.gameObject.tag == "MenuItem"){
 	             	TomoeSelect tomoeScript = hit.transform.gameObject.GetComponent<TomoeSelect>();
