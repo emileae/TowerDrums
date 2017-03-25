@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Blackboard : MonoBehaviour {
 
@@ -46,8 +47,20 @@ public class Blackboard : MonoBehaviour {
 	public bool incomingWave = false;
 	public bool startAttack = false;
 
+	// win lose audio
 	public AudioSource victorySound;
 	public AudioSource loseSound;
+
+	// general drum audio
+	public AudioSource lowDrum;
+	public int numLowDrums = 0;
+	private bool lowDrumPlaying = false;
+	public AudioSource middleDrum;
+	public int numMiddleDrums = 0;
+	private bool middleDrumPlaying = false;
+	public AudioSource highDrum;
+	public int numHighDrums = 0;
+	private bool highDrumPlaying = false;
 
 	// blood / enemy list
 	public List<GameObject> enemies = new List<GameObject>();
@@ -92,7 +105,63 @@ public class Blackboard : MonoBehaviour {
 		moneyIndicator.ScaleIndicator(money, maxMoney);
 
 	}
+
+	public void PlayLowDrum ()
+	{
+		if (!lowDrumPlaying) {
+			lowDrum.Play ();
+			lowDrum.loop = true;
+			lowDrumPlaying = true;
+		}
+	}
+	public void PlayMiddleDrum ()
+	{
+		if (!middleDrumPlaying) {
+			middleDrum.Play ();
+			middleDrum.loop = true;
+			middleDrumPlaying = true;
+		}
+	}
+	public void PlayHighDrum ()
+	{
+		if (!highDrumPlaying) {
+			highDrum.Play ();
+			highDrum.loop = true;
+			highDrumPlaying = true;
+		}
+	}
+	public void StopLowDrum ()
+	{
+		if (lowDrumPlaying) {
+			lowDrum.Stop ();
+			lowDrum.loop = false;
+			lowDrumPlaying = false;
+		}
+	}
+	public void StopMiddleDrum ()
+	{
+		if (middleDrumPlaying) {
+			middleDrum.Stop ();
+			middleDrum.loop = false;
+			middleDrumPlaying = false;
+		}
+	}
+	public void StopHighDrum ()
+	{
+		if (highDrumPlaying) {
+			highDrum.Stop ();
+			highDrum.loop = false;
+			highDrumPlaying = false;
+		}
+	}
+
 	public void Lose(){
+		highDrum.Stop();
+		middleDrum.Stop();
+		lowDrum.Stop();
+		lowDrumPlaying = false;
+		middleDrumPlaying = false;
+		highDrumPlaying = false;
 		defeated = true;
 		Debug.Log("You LOSE!!!!!!!!");
 		Debug.Log ("Turn off all drums and sound waves......");
@@ -100,21 +169,36 @@ public class Blackboard : MonoBehaviour {
 		ResetGridPoints();
 		goalBlood.SetActive(true);
 		loseSound.Play();
+
+		StartCoroutine(ResetGame ());
 	}
 	public void Win(){
 		Debug.Log("You WIN!!!!!!!!");
+		highDrum.Stop();
+		middleDrum.Stop();
+		lowDrum.Stop();
+		lowDrumPlaying = false;
+		middleDrumPlaying = false;
+		highDrumPlaying = false;
 		silent = true;
 		incomingWave = false;
 		startAttack = false;
 		enemiesKilled = 0;
 		currentEnemies = 0;
 
-		money = maxMoney / currentWave;
+//		money = maxMoney / currentWave;
+		money = maxMoney;
 
 		victorySound.Play();
 		ResetGridPoints();
 
 		currentWave += 1;
+	}
+
+	IEnumerator ResetGame ()
+	{
+		yield return new WaitForSeconds(3.0f);
+		SceneManager.LoadScene ("Main", LoadSceneMode.Single);
 	}
 
 	public void StartAttack ()
@@ -124,6 +208,7 @@ public class Blackboard : MonoBehaviour {
 		numEnemiesL = originalNumEnemiesL*currentWave;
 		enemiesToKill = numEnemiesS + numEnemiesM + numEnemiesL;
 		Debug.Log("Start Attack: " + enemiesToKill);
+		silent = false;
 		startAttack = true;
 		enemySpawner.SpawnWave ();
 	}
@@ -171,6 +256,9 @@ public class Blackboard : MonoBehaviour {
 		for(int i = 0; i<enemies.Count; i++){
 			Destroy(enemies[i]);
 		}
+
+		blood = new List<GameObject>();
+		enemies = new List<GameObject>();
 
 	}
 

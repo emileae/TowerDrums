@@ -10,6 +10,10 @@ public class Drum : MonoBehaviour {
 
 	public BuildPoint buildPoint;
 
+	public bool lowDrum;
+	public bool middleDrum;
+	public bool highDrum;
+
 	public int cost = 10;
 	public int costPerBeat = 1;
 
@@ -35,13 +39,28 @@ public class Drum : MonoBehaviour {
 	[Range(0.0f, 1.0f)] public float volume = 0.5f;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 
 		if (blackboard == null) {
-			blackboard = GameObject.Find("Blackboard").GetComponent<Blackboard>();
+			blackboard = GameObject.Find ("Blackboard").GetComponent<Blackboard> ();
 		}
 
-		audio = GetComponent<AudioSource>();
+		audio = GetComponent<AudioSource> ();
+
+		if (gameObject.name == "Low") {
+			lowDrum = true;
+			middleDrum = false;
+			highDrum = false;
+		}else if (gameObject.name == "Middle") {
+			lowDrum = false;
+			middleDrum = true;
+			highDrum = false;
+		}else if (gameObject.name == "High") {
+			lowDrum = false;
+			middleDrum = false;
+			highDrum = true;
+		}
 	}
 	
 	// Update is called once per frame
@@ -53,6 +72,7 @@ public class Drum : MonoBehaviour {
 		audio.volume = volume;
 		if (play && !playing) {
 			playing = true;
+			Debug.Log("Start playing....... " + blackboard.currentWave);
 			StartCoroutine (PlayDrum ());
 		}
 
@@ -67,10 +87,25 @@ public class Drum : MonoBehaviour {
 	IEnumerator PlayDrum ()
 	{
 		yield return new WaitForSeconds (beat);
+		//costPerBeat = costPerBeat * blackboard.currentWave;
+//		Debug.Log("costPerBeat: " + costPerBeat);
+//		Debug.Log("costPerBeat: " + costPerBeat);
+
+		Debug.Log("Play the drum: " + blackboard.currentWave);
+		
 		if (blackboard.money >= costPerBeat) {
 			// drum beat cost
 			blackboard.money -= costPerBeat;
-			audio.Play ();
+			if (lowDrum) {
+//				Debug.Log("PLAY LOW DRUMMMMM");
+				blackboard.PlayLowDrum ();
+			}
+			if (middleDrum) {
+				blackboard.PlayMiddleDrum ();
+			}
+			if (highDrum) {
+				blackboard.PlayHighDrum ();
+			}
 			playing = false;
 		} else {
 //			play = false;
@@ -81,7 +116,6 @@ public class Drum : MonoBehaviour {
 
 	public void ToggleDrum ()
 	{
-		Debug.Log("TOGGLE DRUMMMMMMMM");
 		if (drumOn) {
 			DeactivateSoundWave ();
 		}else{
@@ -97,10 +131,24 @@ public class Drum : MonoBehaviour {
 	}
 	void DeactivateSoundWave ()
 	{
+		Debug.Log("Soundwave deactivateDDDDDDD");
 		drumOn = false;
 		play = false;
 		if (buildPoint.soundWave != null) {
 			buildPoint.soundWave.SetActive (false);
+		}
+
+		if (lowDrum) {
+			blackboard.numLowDrums -= 1;
+			blackboard.StopLowDrum ();
+		}
+		if (middleDrum) {
+			blackboard.numMiddleDrums -= 1;
+			blackboard.StopMiddleDrum ();
+		}
+		if (highDrum) {
+			blackboard.numHighDrums -= 1;
+			blackboard.StopHighDrum ();
 		}
 	}
 

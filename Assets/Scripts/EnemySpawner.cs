@@ -31,9 +31,9 @@ public class EnemySpawner : MonoBehaviour {
 		yield return new WaitForSeconds (blackboard.enemySpawnTime);
 		GameObject enemy;
 
-		Debug.Log("ES: " + blackboard.currentWave + " - " + blackboard.numEnemiesS);
-		Debug.Log("EM: " + blackboard.currentWave + " - " + blackboard.numEnemiesM);
-		Debug.Log("EL: " + blackboard.currentWave + " - " + blackboard.numEnemiesL);
+//		Debug.Log("ES: " + blackboard.currentWave + " - " + blackboard.numEnemiesS);
+//		Debug.Log("EM: " + blackboard.currentWave + " - " + blackboard.numEnemiesM);
+//		Debug.Log("EL: " + blackboard.currentWave + " - " + blackboard.numEnemiesL);
 
 		if (blackboard.numEnemiesS > 0) {
 			enemy = Instantiate (enemyS, transform.position, Quaternion.identity) as GameObject;

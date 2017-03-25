@@ -36,7 +36,7 @@ public class TowerControl : MonoBehaviour {
 //					Debug.Log ("Hit build point");
 
 					BuildPoint buildPointScript = hit.transform.gameObject.GetComponent<BuildPoint> ();
-					if (!buildPointScript.spawningGround) {
+					if (!buildPointScript.spawningGround && !buildPointScript.towerSelected) {
 						if (buildPointScript.selected) {
 //						Debug.Log ("Deselect this point!!@!@!@!@!@");
 							blackboard.DeselectAllPoints ();
@@ -50,7 +50,7 @@ public class TowerControl : MonoBehaviour {
 								buildPointScript.buildOptions.SetActive (true);
 							} else if (buildPointScript.towerSelected) {
 								Debug.Log ("Has tower........");
-								buildPointScript.drumScript.ToggleDrum ();
+//								buildPointScript.drumScript.ToggleDrum ();
 							}
 
 							blackboard.DeselectAllPoints ();

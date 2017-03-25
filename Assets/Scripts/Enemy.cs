@@ -55,6 +55,8 @@ public class Enemy : MonoBehaviour {
 //			blackboard.Lose();
 		}
 
+		Debug.Log("Enemy speed: " + agent.speed);
+
 		if (Vector3.Distance(transform.position, agent.destination) <= 1f)
 		{
 			Debug.Log("Arrived safely");
@@ -79,10 +81,10 @@ public class Enemy : MonoBehaviour {
 
 	public void TakeDamage (int damage)
 	{
-		health -= (damage / blackboard.currentWave);
+		health -= (damage - blackboard.currentWave);
 		if (health <= 0) {
 			killed = true;
-			blackboard.money += (killValue/blackboard.currentWave);
+			blackboard.money += (killValue / blackboard.currentWave);
 			blackboard.enemiesKilled += 1;
 			gameObject.SetActive(false);
 		}

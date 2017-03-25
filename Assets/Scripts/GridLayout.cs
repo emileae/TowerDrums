@@ -28,7 +28,7 @@ public class GridLayout : MonoBehaviour {
 
 	}
 
-	void LayoutGrid ()
+	public void LayoutGrid ()
 	{
 		gridPoints = new GameObject[groundWidth, groundHeight];
 		buildPointScripts = new BuildPoint[groundWidth * groundHeight];

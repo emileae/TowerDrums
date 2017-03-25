@@ -84,45 +84,63 @@ public class BuildPoint : MonoBehaviour {
 
 	public void SetDrum (int drum)
 	{
+		if (!blackboard.startAttack) {
+			Debug.Log("START ATTACKKKKKK: " + blackboard.currentWave);
+			blackboard.StartAttack();
+		}
+
 		soundWave.SetActive (true);
 		SoundWave soundWaveScript = soundWave.GetComponent<SoundWave> ();
 		buildOptions.SetActive (false);
 		towerSelected = true;
 		blackboard.DeselectAllPoints ();
-		collider.enabled = true;
+//		collider.enabled = true;
 		switch (drum) {
 		case 0:
 			low.SetActive (true);
 			drumScript = low.GetComponent<Drum> ();
-			soundWaveScript.waveRange = drumScript.waveRange;
-			soundWaveScript.drumScript = drumScript;
-			blackboard.money -= drumScript.cost;
-			drumScript.play = true;
+			if (blackboard.money >= drumScript.cost) {
+				soundWaveScript.waveRange = drumScript.waveRange;
+				soundWaveScript.drumScript = drumScript;
+				blackboard.money -= drumScript.cost;
+				drumScript.play = true;
+				blackboard.numLowDrums += 1;
+			} else {
+				low.SetActive (false);
+				soundWave.SetActive (false);
+			}
 			break;
 		case 1:
 			middle.SetActive (true);
 			drumScript = middle.GetComponent<Drum> ();
-			soundWaveScript.waveRange = drumScript.waveRange;
-			soundWaveScript.drumScript = drumScript;
-			blackboard.money -= drumScript.cost;
-			drumScript.play = true;
+			if (blackboard.money >= drumScript.cost) {
+				soundWaveScript.waveRange = drumScript.waveRange;
+				soundWaveScript.drumScript = drumScript;
+				blackboard.money -= drumScript.cost;
+				drumScript.play = true;
+				blackboard.numMiddleDrums += 1;
+			} else {
+				middle.SetActive (false);
+				soundWave.SetActive (false);
+			}
 			break;
 		case 2:
 			high.SetActive (true);
 			drumScript = high.GetComponent<Drum> ();
+			if (blackboard.money >= drumScript.cost) {
 			soundWaveScript.waveRange = drumScript.waveRange;
 			soundWaveScript.drumScript = drumScript;
 			blackboard.money -= drumScript.cost;
 			drumScript.play = true;
+			blackboard.numHighDrums += 1;
+			} else {
+				high.SetActive (false);
+				soundWave.SetActive (false);
+			}
 			break;
 		default:
 			Debug.Log ("Error BuildPoint.cs couldn't build a drum");
 			break;
-		}
-
-		if (!blackboard.startAttack) {
-			Debug.Log("START ATTACKKKKKK: " + blackboard.currentWave);
-			blackboard.StartAttack();
 		}
 
 	}

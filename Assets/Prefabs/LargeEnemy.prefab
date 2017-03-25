@@ -125,7 +125,7 @@ MonoBehaviour:
   killValue: 100
   killed: 0
   health: 150
-  speed: 2
+  speed: 5
   beingAttacked: 0
   destination: {fileID: 0}
   splat: {fileID: 1000013534422266, guid: f5106aa915ddc491e99cdf7e5f480039, type: 2}
@@ -162,16 +162,16 @@ NavMeshAgent:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013766166606}
   m_Enabled: 1
-  m_Radius: 4
+  m_Radius: 1
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 16
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 0
-  m_Height: 4
+  m_Height: 2
   m_BaseOffset: 2
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 3
+  m_ObstacleAvoidanceType: 4

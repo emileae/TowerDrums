@@ -125,7 +125,7 @@ MonoBehaviour:
   killValue: 50
   killed: 0
   health: 100
-  speed: 8
+  speed: 9
   beingAttacked: 0
   destination: {fileID: 0}
   splat: {fileID: 1000013534422266, guid: f5106aa915ddc491e99cdf7e5f480039, type: 2}
@@ -164,7 +164,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_Radius: 1
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 16
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -174,4 +174,4 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 3
+  m_ObstacleAvoidanceType: 4
