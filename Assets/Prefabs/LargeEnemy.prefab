@@ -124,7 +124,7 @@ MonoBehaviour:
   blackboard: {fileID: 0}
   killValue: 100
   killed: 0
-  health: 150
+  health: 200
   speed: 5
   beingAttacked: 0
   destination: {fileID: 0}
@@ -170,7 +170,7 @@ NavMeshAgent:
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
-  m_AutoRepath: 0
+  m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 2
   m_WalkableMask: 4294967295

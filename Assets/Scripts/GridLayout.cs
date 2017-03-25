@@ -59,7 +59,7 @@ public class GridLayout : MonoBehaviour {
 		// Set Spawn Position
 		float spawnXPos = ((groundWidth-1) * unitWidth) - ((groundWidth / 2) * unitWidth) + (0.5f * unitWidth);
 		float spawnZPos = ((Random.Range(0, groundHeight-1)) * unitWidth) - (groundHeight / 2) * unitWidth + (0.5f * unitWidth);
-		spawnPoint.transform.position = new Vector3(spawnXPos, goal.transform.position.y, spawnZPos);
+		spawnPoint.transform.position = new Vector3(spawnXPos, spawnPoint.transform.position.y, spawnZPos);
 
 		// go through grid again and place obstacles
 		for (int i = 0; i < groundWidth; i++) {

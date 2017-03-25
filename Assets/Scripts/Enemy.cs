@@ -55,11 +55,8 @@ public class Enemy : MonoBehaviour {
 //			blackboard.Lose();
 		}
 
-		Debug.Log("Enemy speed: " + agent.speed);
-
 		if (Vector3.Distance(transform.position, agent.destination) <= 1f)
 		{
-			Debug.Log("Arrived safely");
 			blackboard.Lose();
 		}
 

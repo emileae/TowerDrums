@@ -33,6 +33,7 @@ public class Blackboard : MonoBehaviour {
 	public Transform destination;
 
 //	public int waves = 3;
+	public GameObject enso;
 	public int currentWave = 1;
 	public float waveSpawnTime = 20.0f;
 	public bool currentWaveActive = false;
@@ -68,6 +69,7 @@ public class Blackboard : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		AddEnso();
 	}
 	
 	// Update is called once per frame
@@ -193,6 +195,7 @@ public class Blackboard : MonoBehaviour {
 		ResetGridPoints();
 
 		currentWave += 1;
+		AddEnso();
 	}
 
 	IEnumerator ResetGame ()
@@ -242,10 +245,6 @@ public class Blackboard : MonoBehaviour {
 			gridLayout.buildPointScripts[i].middle.SetActive(false);
 			gridLayout.buildPointScripts[i].high.SetActive(false);
 			gridLayout.buildPointScripts[i].soundWave.SetActive (false);
-//			if (gridLayout.buildPointScripts [i].drumsVisible && !gridLayout.buildPointScripts [i].towerSelected) {
-//				gridLayout.buildPointScripts[i].drumsVisible = false;
-//				gridLayout.buildPointScripts[i].HideDrums();
-//			}
 		}
 
 		// clean up blood
@@ -262,9 +261,14 @@ public class Blackboard : MonoBehaviour {
 
 	}
 
-//	IEnumerator NextWave(){
-//		yield return new WaitForSeconds(5.0f);
-//		Debug.Log("New wave.....");
-//		StartAttack ();
-//	}
+	public void AddEnso(){
+		float xPos = (-1.5f * gridLayout.unitWidth) - (gridLayout.groundWidth / 2) * gridLayout.unitWidth + (0.5f * gridLayout.unitWidth);
+		float yPos = -0.49f;
+		//float zPos = (currentWave * gridLayout.unitWidth) + (gridLayout.groundHeight / 2) * gridLayout.unitWidth + (0.5f * gridLayout.unitWidth);
+//		float zPos = ((gridLayout.groundHeight - currentWave) * gridLayout.unitWidth);// + (0.5f * gridLayout.unitWidth);
+		float zPos = (gridLayout.groundHeight/2)*gridLayout.unitWidth - (0.5f * gridLayout.unitWidth) - ((currentWave-1)*gridLayout.unitWidth);
+		Instantiate (enso, new Vector3 (xPos, yPos, zPos), Quaternion.Euler(90,0,0));
+	}
+
+
 }

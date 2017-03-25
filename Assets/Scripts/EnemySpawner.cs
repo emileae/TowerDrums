@@ -23,6 +23,12 @@ public class EnemySpawner : MonoBehaviour {
 
 	public void SpawnWave ()
 	{
+		// Set new random location
+		float spawnXPos = ((blackboard.gridLayout.groundWidth-1) * blackboard.gridLayout.unitWidth) - ((blackboard.gridLayout.groundWidth / 2) * blackboard.gridLayout.unitWidth) + (0.5f * blackboard.gridLayout.unitWidth);
+		float spawnZPos = ((Random.Range(0, blackboard.gridLayout.groundHeight-1)) * blackboard.gridLayout.unitWidth) - (blackboard.gridLayout.groundHeight / 2) * blackboard.gridLayout.unitWidth + (0.5f * blackboard.gridLayout.unitWidth);
+		transform.position = new Vector3(spawnXPos, transform.position.y, spawnZPos);
+
+
 		StartCoroutine(SpawnEnemy());
 	}
 
